@@ -3,6 +3,7 @@ package com.bitlogger.onair.di
 import `in`.bitlogger.kikstart.network.apiInterface.APInterface
 import `in`.bitlogger.studentsolutions.utils.PreferenceManager
 import android.content.Context
+import com.bitlogger.onair.network.apiInterface.BotInterface
 import com.bitlogger.onair.network.apiInterface.LiveInterface
 import com.bitlogger.onair.network.apiInterface.LiveKey
 import com.bitlogger.onair.util.Constants
@@ -49,6 +50,17 @@ class AppModule {
             .client(interceptor())
             .build()
         return auth.create(LiveInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun botChat(): BotInterface {
+        val auth = Retrofit.Builder()
+            .baseUrl("http://20.198.89.168:5000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(interceptor())
+            .build()
+        return auth.create(BotInterface::class.java)
     }
 
     private fun interceptor(): OkHttpClient {

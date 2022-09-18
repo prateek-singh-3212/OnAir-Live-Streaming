@@ -32,6 +32,7 @@
         android:id="@+id/live_player"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:visibility="gone"
         app:keep_content_on_player_reset="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"

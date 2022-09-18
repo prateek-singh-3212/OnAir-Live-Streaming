@@ -7,11 +7,34 @@
     tools:context=".ui.fragment.ChatFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/live_chat_rv"
+        android:id="@+id/query_chat_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/query_message_tv"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="5dp" />
+
+    <EditText
+        android:id="@+id/query_message_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Message..."
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/query_sendChat"
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/query_sendChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_send_24"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/query_message_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/query_message_tv"
+        android:contentDescription="asd" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

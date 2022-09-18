@@ -28,6 +28,7 @@ class StreamingActivity : AppCompatActivity() {
         if (id != -1) {
             Log.d("SS", " dasda $id")
             sharedVM.id.postValue(id)
+            sharedVM.Qid = id
         }
 
         val url = intent.getStringExtra(Constants.STREAM_URL)

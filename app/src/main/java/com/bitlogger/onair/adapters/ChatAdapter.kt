@@ -24,11 +24,15 @@ class ChatAdapter(options: FirestoreRecyclerOptions<ChatModel>):
     override fun onBindViewHolder(holder: Viewholder, position: Int, model: ChatModel) {
         holder.binding.message.text = model.message
         holder.binding.userName.text = model.userName
-        if (model.isBot) {
+        if (model.bot) {
             holder.binding.tagBot.visibility = View.VISIBLE
+        }else {
+            holder.binding.tagBot.visibility = View.GONE
         }
-        if (model.isModerator) {
+        if (model.moderator) {
             holder.binding.tagModerator.visibility = View.VISIBLE
+        }else {
+            holder.binding.tagBot.visibility = View.GONE
         }
         Picasso.get().load(model.userImgUrl).into(holder.binding.userProfile)
     }

@@ -5,12 +5,12 @@ import com.google.gson.reflect.TypeToken
 
 data class ChatModel(
     val userName: String,
-    val isBot: Boolean,
-    val isModerator: Boolean,
+    val bot: Boolean,
+    val moderator: Boolean,
     val message: String,
     val userImgUrl: String
 ) {
-    constructor(): this("A", true, true, "SS", "SS")
+    constructor(): this("A", false, false, "SS", "SS")
     val gson = Gson()
 
     //convert a data class to a map
