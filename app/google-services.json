@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "299349360993",
+    "project_id": "on-air-80f40",
+    "storage_bucket": "on-air-80f40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299349360993:android:eb5c3a58ba8260c1ae0520",
+        "android_client_info": {
+          "package_name": "com.bitlogger.onair"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299349360993-eltvs7tamesdql2qkljsjmel70609082.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bitlogger.onair",
+            "certificate_hash": "fd6df67562bba53775c3c49b5c5897212437d245"
+          }
+        },
+        {
+          "client_id": "299349360993-vhdi1caputl6t34srbhjur4pvf8i9t07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI9ROLYk6WHD5olp7kPM3KeId028jyzYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299349360993-vhdi1caputl6t34srbhjur4pvf8i9t07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
