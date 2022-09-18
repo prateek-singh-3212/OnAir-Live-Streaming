@@ -1,11 +1,15 @@
 package com.bitlogger.onair.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.bitlogger.onair.R
+import com.bitlogger.onair.callback.CoroutineDataPassCallbacks
 import com.bitlogger.onair.databinding.ActivityStreamingBinding
+import com.bitlogger.onair.db.FirestoreDatabase
 import com.bitlogger.onair.ui.viewmodel.FragSharedVM
 import com.bitlogger.onair.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +42,21 @@ class StreamingActivity : AppCompatActivity() {
                 sharedVM.vimeoURL.postValue(url)
             }
             if (live) {
-                sharedVM.liveURL.postValue(url)
+                val callbacks =object : CoroutineDataPassCallbacks {
+                    override fun isDataLoading(dataLoading: Boolean) {
+                        Toast.makeText(this@StreamingActivity, "$dataLoading", Toast.LENGTH_SHORT)
+                    }
+
+                    override fun <T> onLoadComplete(data: T) {
+                        val model = data as HashMap<String, String>
+                        sharedVM.liveURL.postValue(model["public"])
+                    }
+
+                    override fun onLoadFailed(errorCode: String, errorMessage: String) {
+                        Toast.makeText(this@StreamingActivity, "Unable to connect with API", Toast.LENGTH_SHORT)
+                    }
+                }
+                FirestoreDatabase().getDataFromFirestore("STREAM/2", callbacks)
             }
         }
     }

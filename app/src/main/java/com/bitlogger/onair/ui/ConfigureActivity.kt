@@ -15,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bitlogger.onair.callback.CoroutineDataPassCallbacks
 import com.bitlogger.onair.databinding.ActivityConfigureBinding
+import com.bitlogger.onair.db.FirestoreDatabase
 import com.bitlogger.onair.model.CreateStreamModel
 import com.bitlogger.onair.model.LiveResponseModel
+import com.bitlogger.onair.model.Stream
 import com.bitlogger.onair.ui.BroadcastActivity.Preset
 import com.bitlogger.onair.ui.viewmodel.ConfigureVM
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +74,7 @@ class ConfigureActivity : AppCompatActivity() {
                 }
 
                 override fun <T> onLoadComplete(data: T) {
-                    val model = data as LiveResponseModel
+                    val model = data as HashMap<String, String>
 
                     Toast.makeText(
                         this@ConfigureActivity,
@@ -80,7 +82,7 @@ class ConfigureActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     val intent = Intent(this@ConfigureActivity, BroadcastActivity::class.java)
-                    intent.putExtra(BroadcastActivity.intentExtraStreamKey, model.stream_key)
+                    intent.putExtra(BroadcastActivity.intentExtraStreamKey, model["stream_key"])
                     intent.putExtra(BroadcastActivity.intentExtraPreset, preset)
                     startActivity(intent)
                 }
@@ -90,13 +92,15 @@ class ConfigureActivity : AppCompatActivity() {
                 }
             }
 
-            configureVM.createStream(
-                CreateStreamModel(
-                    CreateStreamModel.NewAssetSettings(listOf("public")),
-                    listOf("public")
-                ),
-                callbacks
-            )
+            FirestoreDatabase().getDataFromFirestore("STREAM/2", callbacks)
+//
+//            configureVM.createStream(
+//                CreateStreamModel(
+//                    CreateStreamModel.NewAssetSettings(listOf("public")),
+//                    listOf("public")
+//                ),
+//                callbacks
+//            )
         } else {
             Log.i(TAG, "Requesting Permissions")
             ActivityCompat.requestPermissions(this, PERMISSIONS, 1)

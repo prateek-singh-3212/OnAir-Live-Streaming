@@ -39,7 +39,11 @@ class StreamAdapter(val data: Array<StreamModel>) :
         val intent = Intent(context, StreamingActivity::class.java)
         intent.putExtra(Constants.STREAM_ID, data[position].streamId)
         intent.putExtra(Constants.STREAM_URL, data[position].url)
-        intent.putExtra(Constants.IS_LIVE, data[position].isLive)
+        if (data[position].streamId == 2) {
+            intent.putExtra(Constants.IS_LIVE, true)
+        } else {
+            intent.putExtra(Constants.IS_LIVE, false)
+        }
         intent.putExtra(Constants.IS_VIMEO, data[position].isVimeo)
         intent.putExtra(Constants.IS_YT, data[position].isYoutube)
         context.startActivity(intent)

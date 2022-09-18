@@ -1,19 +1,24 @@
 package com.bitlogger.onair.ui.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bitlogger.onair.R
 import com.bitlogger.onair.databinding.FragmentVideoBinding
 import com.bitlogger.onair.ui.viewmodel.FragSharedVM
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.util.MimeTypes
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.RequestParams
 import com.loopj.android.http.TextHttpResponseHandler
@@ -34,11 +39,14 @@ class VideoFragment : Fragment() {
     private val playerView: PlayerView? = null
     private lateinit var player: SimpleExoPlayer
 
+    private var exoPlayer: ExoPlayer? = null
+
     //Release references
     private val playWhenReady = false //If true the player auto play the media
 
     private val currentWindow = 0
     private val playbackPosition: Long = 0
+    private var isVimeo: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,12 +68,35 @@ class VideoFragment : Fragment() {
         }
 
         sharedVM.vimeoURL.observe(viewLifecycleOwner) {
+            isVimeo = true
             binding.vimeoPlayer.visibility = View.VISIBLE
             initializePlayer(it)
             player!!.playWhenReady = true
         }
 
+        sharedVM.liveURL.observe(viewLifecycleOwner) {
+            binding.livePlayer.visibility = View.VISIBLE
+            initializeLive(it)
+        }
         return view
+    }
+
+    private fun initializeLive(url: String) {
+        exoPlayer = ExoPlayer.Builder(requireContext()).build()
+        binding.livePlayer.player = exoPlayer
+        binding.livePlayer.setKeepContentOnPlayerReset(true)
+        var mediaItem =  MediaItem.Builder().
+        setUri(url)
+            .setMimeType(MimeTypes.APPLICATION_M3U8).build()
+
+        exoPlayer?.let { exoPlayer ->
+            exoPlayer.setMediaItem(mediaItem)
+            exoPlayer.playWhenReady = true
+//            exoPlayer.seekTo(currentItem, 20L)
+
+            exoPlayer.prepare()
+        }
+
     }
 
     private fun getId(s: String): String = s.replace("https://www.youtube.com/watch?v=", "")
@@ -134,6 +165,8 @@ class VideoFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        player!!.stop()
+        if (isVimeo) {
+            player!!.stop()
+        }
     }
 }
