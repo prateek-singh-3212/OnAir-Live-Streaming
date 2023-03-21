@@ -33,7 +33,7 @@ class AppModule {
     @Singleton
     fun apiClient(): APInterface {
         val auth = Retrofit.Builder()
-            .baseUrl("https://tech-u-thon.herokuapp.com/")
+            .baseUrl("https://pink-proud-swallow.cyclic.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(interceptor())
             .build()
